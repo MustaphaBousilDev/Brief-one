@@ -5,11 +5,13 @@ document.querySelector('.button_start').addEventListener('click',()=>{
     let name_player2=''
     console.log('rotorotor')
     if(player1.value=='' || player2.value==''){
-       alert('player name is empty')
+       console.log('error')
     }
-    name_player1=player1.value
-    name_player2=player2.value
-    storeLocalStorage(name_player1, name_player2);
+    else{
+      name_player1=player1.value
+      name_player2=player2.value
+      storeLocalStorage(name_player1, name_player2);
+    }
 })
 
 

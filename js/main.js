@@ -1,6 +1,9 @@
 let game=document.querySelector('.tac-gaming')
-
-
+let players=document.querySelector('.players')
+players.querySelector('.one').querySelector('.playerOne').innerHTML +=JSON.parse(localStorage.getItem('player1')).name
+players.querySelector('.two').querySelector('.playerTwo').innerHTML += JSON.parse(localStorage.getItem('player2')).name
+players.querySelector('.one').querySelector('.scorePlayerOne').innerHTML += JSON.parse(localStorage.getItem('player1')).score
+players.querySelector('.two').querySelector('.scorePlayerTwo').innerHTML += JSON.parse(localStorage.getItem('player2')).score
 //let x=false
 
 let  X=0
@@ -20,6 +23,7 @@ function createTac(d=20){
             let caree=document.createElement('div')
             caree.className='carree'
             let label =document.createElement('label')
+            label.classList.add('flex-center')
             label.setAttribute('for',`${i}-${j}`)
             label.setAttribute('for',`${i}-${j}`)
             label.setAttribute('data-i',`${i}`)
@@ -30,9 +34,7 @@ function createTac(d=20){
             caree.style.width=`calc(${100/d}% - 1px)`
             caree.style.height=`calc(${100/d}% - 1px)`
             game.appendChild(caree)
-            if(j==3 && i==2){
-                caree.style.backgroundColor="red"
-            }
+            
         }
     }
 }
@@ -46,11 +48,17 @@ function handleClick(event){
    event.target.textContent=currentPlayer
    let winner=Winner(row,col)
    if(winner){
+    
     CounterWinner()
     Done()
    }
    else{
     currentPlayer= currentPlayer==='X' ? 'O' : 'X'
+    if(currentPlayer==='X'){
+        event.target.classList.replace('flex-center','flex-center-circle')
+    }else{
+        event.target.classList.replace('flex-center-circle','flex-center')
+    }
     event.target.removeEventListener('click',handleClick)
     
    }
@@ -81,8 +89,25 @@ function CounterWinner(){
     }else{
         O++
     }
-    console.log('winner is X=',X)
-    console.log('winner is O=',O)
+    
+    let playerOne=JSON.parse(localStorage.getItem('player1'))
+    let playerTwo=JSON.parse(localStorage.getItem('player2'))
+    let scoreOne=JSON.parse(localStorage.getItem('player1')).score
+    let scoreTwo=JSON.parse(localStorage.getItem('player2')).score
+    playerOne.score= parseInt(scoreOne) + parseInt(X)
+    playerTwo.score= parseInt(scoreTwo) + parseInt(O)
+    localStorage.setItem('player1',JSON.stringify(playerOne))
+    localStorage.setItem('player2',JSON.stringify(playerTwo))
+    players.querySelector('.one').querySelector('.scorePlayerOne').innerHTML ='score : ' + JSON.parse(localStorage.getItem('player1')).score
+    players.querySelector('.two').querySelector('.scorePlayerTwo').innerHTML ='score : ' + JSON.parse(localStorage.getItem('player2')).score
+    
+    console.log('X=',X)
+    console.log('Y=',O)
+    console.log('playe one',playerOne)
+    console.log('player two',playerTwo)
+    console.log('scoreOne',scoreOne)
+    console.log('scoreTwo',scoreTwo)
+    
 }
 
 
@@ -287,10 +312,11 @@ function switchXO(x,carr){
 
 
 function Winner(row,col){
-    let win = (checkRight(row,col) + checkLeft(row,col) +1)===5 || 
-    (checkTop(row,col) + checkBottom(row,col) +1)===5 || 
+    let win = ((checkLeft(row,col) + checkRight(row,col)) ) === 5 || 
+    (checkTop(row,col) + checkBottom(row,col))===5 || 
     (checkDiagLeftTop(row,col) + checkDiagRightBottom(row,col) +1)===5 ||
     (checkDiagRightTop(row,col) + checkDiagLeftBottom(row,col) +1)===5
+    
 
     if(win) return true 
     return false 
@@ -300,20 +326,7 @@ function Done(){
     alert('game is over')
 }
 
-function checkBottom(row,col){
-    let count = 0;
 
-    // Check down
-    for (let i = parseInt(row + 1); i < 20; i++) {
-        if (arrs[i][col] === currentPlayer) {
-            count++;
-        } else { 
-            break; // Stop counting if a different symbol is encountered
-        }
-    }
-
-    return count;
-}
 function checkDiagLeftBottom(row,col){
     let count = 0;
     // Check down and left
@@ -364,7 +377,7 @@ function checkDiagRightTop(row,col){
 }
 function checkLeft(row,col){
     let count = 0;
-    for (let i = col - 1; i >= 0; i--) {
+    for (let i = col -1 ; i <= col + 4; i--) {
         if (arrs[row][i] === currentPlayer) {
             count++;
         } else {
@@ -375,7 +388,7 @@ function checkLeft(row,col){
 }
 function checkRight(row,col){
     let count = 0;
-    for (let i = (parseInt(col) + 1) ; i < 20; i++) {
+    for (let i = (parseInt(col)) ; i <= col + 5; i++) {
         console.log('current player right know is ')
         if (arrs[row][i] === currentPlayer) {
             count++;
@@ -389,11 +402,29 @@ function checkTop(row,col){
     let count = 0;
 
     // Check up
-    for (let i = (row - 1); i >= 0; i--) {
-        if (arrs[i][col] === currentPlayer) {
-            count++;
-        } else {
-            break; 
+    for (let i = parseInt( row); i >= (row - 5); i--) {
+        if(i >= 0){
+            if (arrs[i][col] === currentPlayer) {
+                count++;
+            } else {
+                break; 
+            }
+        }
+    }
+
+    return count;
+}
+function checkBottom(row,col){
+    let count = 0;
+
+    // Check down
+    for (let i = parseInt(row) + 1; i < parseInt(row) + 5; i++) {
+        if(i <20){
+            if (arrs[i][col] === currentPlayer) {
+                count++;
+            } else { 
+                break; // Stop counting if a different symbol is encountered
+            }
         }
     }
 

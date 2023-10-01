@@ -3,6 +3,19 @@
     padding: 0;
     margin: 0;
 }
+
+h2{
+    font-size: 35px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    color:#fff;
+    font-style: italic;
+}
+.players{
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+}
 body{
     background-color:#fff;
     display: flex;
@@ -10,6 +23,7 @@ body{
     flex-direction: column;
     align-items: center;
     height: 100vh;
+    background-color:rgb(0, 195, 255);
 }
 
 body .tac-gaming{
@@ -29,11 +43,14 @@ body .tac-gaming{
 .carree{
     width: calc(5% - 1px);
     justify-content: center;
+    box-sizing: border-box;
     align-items: center;
     height: 39px;
     position: relative;
+    
     display: flex;
     background-color: white;
+    border:1px solid #000
 
 }
 
@@ -44,6 +61,7 @@ body .tac-gaming{
     position: absolute;
     top: 0;
     left: 0;
+    cursor: pointer;
     
     
 }
@@ -56,4 +74,55 @@ body .tac-gaming{
 
 .orange{
     background-color: orange;
+}
+
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+}
+
+.flex-center-circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color:red;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+}
+
+@media screen and (min-width:1200px){
+    body .tac-gaming{
+       
+        width: 90%; 
+        height: 95%;
+        
+        
+        
+    }
+}
+@media screen and (min-width:1500px){
+    body .tac-gaming{
+       
+        width: 48%; 
+        height: 80%;
+        
+        
+        
+    }
+}
+@media screen and (max-width:600px){
+    body .tac-gaming{
+       
+        width: 90%; 
+        height: 55%;
+        
+        
+        
+    }
 }
